@@ -1,23 +1,58 @@
-import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Home from './pages/Home';
+import Dataset from './pages/Dataset';
+import Login from './pages/Login';
+import Project from './pages/Project';
+import Resource from './pages/Resource';
+import NotFound from './pages/NotFound';
 
 function App() {
+  // router config
+  // reference: https://reactrouter.com/web/guides/quick-start
+  const routers = [
+    {
+      path: '/',
+      component: Home
+    },
+    {
+      path: '/dataset',
+      component: Dataset
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/project',
+      component: Project
+    },
+    {
+      path: '/resource',
+      component: Resource
+    },
+    {
+      path: '*',
+      component: NotFound
+    }
+  ]
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Switch>
+          {
+            routers.map((router) =>
+              <Route exact key={router.path} path={router.path}>
+                {router.component}
+              </Route>
+            )
+          }
+        </Switch>
+      </Router>
     </div>
   );
 }
