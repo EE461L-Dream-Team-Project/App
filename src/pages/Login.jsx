@@ -7,7 +7,7 @@ export default function Login() {
             <Navbar/>
             <br/>
             <div className="user-login-container">
-              <img className="logo" src="public/logo.png"></img>
+              <img className="logo" src="../assets/logo.png"></img>
               <div className="username-container">
                 <h3>Username</h3>
                 <input
