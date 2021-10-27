@@ -9,6 +9,7 @@ import {
 import Home from './pages/Home';
 import Dataset from './pages/Dataset';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import Project from './pages/Project';
 import Resource from './pages/Resource';
 import NotFound from './pages/NotFound';
@@ -31,6 +32,10 @@ function App() {
     {
       path: '/login',
       component: Login
+    },
+    {
+      path: '/register',
+      component: Register
     },
     {
       path: '/project',
