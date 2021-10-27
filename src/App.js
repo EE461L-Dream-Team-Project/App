@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -10,6 +11,7 @@ import Login from './pages/Login';
 import Project from './pages/Project';
 import Resource from './pages/Resource';
 import NotFound from './pages/NotFound';
+import Settings from './pages/Settings';
 
 function App() {
   // router config
@@ -34,6 +36,10 @@ function App() {
     {
       path: '/resource',
       component: Resource
+    },
+    {
+      path : '/settings',
+      component: Settings
     },
     {
       path: '*',
