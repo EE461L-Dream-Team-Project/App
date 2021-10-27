@@ -1,10 +1,8 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 
 export default function Login() {
     return (
         <div>
-            <Navbar/>
             <br/>
             <div className="user-login-container">
               <img className="logo" src="../assets/logo.png"></img>

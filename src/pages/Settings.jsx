@@ -1,17 +1,10 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-
+import React from "react";
 function Settings() {
-    return (
-        <>
-        <div className="navbar">
-            <Navbar />
-        </div>
-        <div>
-            <h1>Settings</h1>
-        </div>
-        </>
-    )
+  return (
+    <>
+      <h1>Settings</h1>
+    </>
+  );
 }
 
-export default Settings
+export default Settings;
