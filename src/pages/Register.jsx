@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 export default function Login(props) {
     const onFinish = (values) => {
         const hide = message.loading('Registering New User...', 0);
-        fetch('https://projecture-backend.herokuapp.com/api/login', {
+        fetch('https://projecture-backend.herokuapp.com/api/register', {
             'method': 'POST',
             headers: {
                 'Content-Type': 'application/json'
