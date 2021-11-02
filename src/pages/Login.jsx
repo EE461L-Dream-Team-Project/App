@@ -1,8 +1,33 @@
 import React from "react";
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-export default function Login() {
+export default function Login(props) {
+  const onFinish = (values) => {
+    const hide = message.loading('Logging In...', 0);
+    fetch('https://projecture-backend.herokuapp.com/api/login', {
+      'method': 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    })
+      .then(response => {
+        setTimeout(hide, 0);
+        if (response.status == 400) {
+          response.json().then(data => {
+            message.error(data.message)
+          })
+        }
+        else {
+          props.history.push('/project')
+          message.success('Successfully Logged in!')
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  };
   return (
     <div class="login-container">
       <img style={{ padding: 30, float: "center" }} src="logo.png" />
@@ -12,6 +37,7 @@ export default function Login() {
         initialValues={{
           remember: true,
         }}
+        onFinish={onFinish}
       >
         <div class="register-fields" style={{ "width": 300, margin: "0 auto" }}>
           <Form.Item
@@ -50,7 +76,7 @@ export default function Login() {
           </Button>
           <br></br>
           <br></br>
-          Or if you don't have an account  <a href="/register">register now</a>
+          Don't have an account? <a href="/register">Register now</a>
         </Form.Item>
 
       </Form>
