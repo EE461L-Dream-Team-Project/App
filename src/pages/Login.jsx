@@ -1,35 +1,22 @@
 import React from "react";
-import { Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-
+import { Form, Input, Button, message } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { post } from "../request";
 export default function Login(props) {
-  const onFinish = (values) => {
-    const hide = message.loading('Logging In...', 0);
-    fetch('https://projecture-backend.herokuapp.com/api/login', {
-      'method': 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    })
-      .then(response => {
-        setTimeout(hide, 0);
-        if (response.status == 400) {
-          response.json().then(data => {
-            message.error(data.message)
-          })
-        }
-        else {
-          props.history.push('/project')
-          message.success('Successfully Logged in!')
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  const onFinish = async (values) => {
+    const hide = message.loading("Logging In...", 0);
+    try {
+      const res = await post("/login", values);
+      props.history.push("/project");
+      message.success("Successfully Logged in!");
+    } catch (e) {
+      message.error("Invalid Username and Password Combination");
+    } finally {
+      setTimeout(hide, 0);
+    }
   };
   return (
-    <div class="login-container">
+    <div className="login-container">
       <img style={{ padding: 30, float: "center" }} src="logo.png" />
       <Form
         name="normal_login"
@@ -39,26 +26,30 @@ export default function Login(props) {
         }}
         onFinish={onFinish}
       >
-        <div class="register-fields" style={{ "width": 300, margin: "0 auto" }}>
+        <div
+          className="register-fields"
+          style={{ width: 300, margin: "0 auto" }}
+        >
           <Form.Item
             name="username"
             rules={[
               {
                 required: true,
-                message: 'Please input your Username!',
+                message: "Please input your Username!",
               },
             ]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username" />
+              placeholder="Username"
+            />
           </Form.Item>
           <Form.Item
             name="password"
             rules={[
               {
                 required: true,
-                message: 'Please input your Password!',
+                message: "Please input your Password!",
               },
             ]}
           >
@@ -71,16 +62,18 @@ export default function Login(props) {
         </div>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
             Login
           </Button>
           <br></br>
           <br></br>
           Don't have an account? <a href="/register">Register now</a>
         </Form.Item>
-
       </Form>
     </div>
-  )
+  );
 }
-
