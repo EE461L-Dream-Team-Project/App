@@ -14,7 +14,7 @@ export default function Login(props) {
     })
       .then(response => {
         setTimeout(hide, 0);
-        if (response.status == 500) {
+        if (response.status == 400) {
           response.json().then(data => {
             message.error(data.message)
           })
