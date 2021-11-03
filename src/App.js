@@ -63,17 +63,17 @@ function App() {
             </Link>
           </Menu.Item>
           <Menu.Item key="project" icon={<AppstoreOutlined />}>
-            <Link to="project">
+            <Link to="/project">
               Project
             </Link>
           </Menu.Item>
           <Menu.Item key="datasets" icon={<HddOutlined />}>
-            <Link to='dataset'>
+            <Link to='/dataset'>
               Datasets
             </Link>
           </Menu.Item>
           <Menu.Item key="settings" icon={<SettingOutlined />}>
-            <Link to="settings">
+            <Link to="/settings">
               Settings
             </Link>
           </Menu.Item>
@@ -81,9 +81,7 @@ function App() {
         <Switch>
           {
             routers.map((router) =>
-              <Route exact key={router.path} path={router.path}>
-                {router.component()}
-              </Route>
+              <Route exact key={router.path} path={router.path} component={router.component} />
             )
           }
         </Switch>
