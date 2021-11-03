@@ -16,6 +16,7 @@ import NotFound from './pages/NotFound';
 import Settings from './pages/Settings';
 import { Image, Menu } from 'antd';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined, HddOutlined } from '@ant-design/icons';
+import ProjectDetail from './pages/ProjectDetail';
 function App() {
   // router config
   // reference: https://reactrouter.com/web/guides/quick-start
@@ -39,6 +40,10 @@ function App() {
     {
       path: '/project',
       component: Project
+    },
+    {
+      path: '/project-detail/:projectId',
+      component: ProjectDetail
     },
     {
       path: '/resource',
