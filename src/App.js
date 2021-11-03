@@ -14,7 +14,7 @@ import Project from './pages/Project';
 import Resource from './pages/Resource';
 import NotFound from './pages/NotFound';
 import Settings from './pages/Settings';
-import { Image, Menu } from 'antd';
+import { Menu } from 'antd';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined, HddOutlined } from '@ant-design/icons';
 import ProjectDetail from './pages/ProjectDetail';
 function App() {
