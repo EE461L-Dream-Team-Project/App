@@ -14,7 +14,8 @@ import Project from './pages/Project';
 import Resource from './pages/Resource';
 import NotFound from './pages/NotFound';
 import Settings from './pages/Settings';
-import { Image, Menu } from 'antd';
+import { Button, Menu } from 'antd';
+import { useAuth0 } from "@auth0/auth0-react";
 import { HomeOutlined, AppstoreOutlined, SettingOutlined, HddOutlined } from '@ant-design/icons';
 function App() {
   // router config
@@ -53,15 +54,12 @@ function App() {
       component: NotFound
     }
   ]
+  const { isAuthenticated } = useAuth0();
+  if (!isAuthenticated) return <Home />
   return (
     <div className="App">
       <Router>
         <Menu mode="horizontal" theme='dark' style={{ display: 'flex' }}>
-          <Menu.Item key="home" icon={<HomeOutlined />}>
-            <Link to='/'>
-              Home
-            </Link>
-          </Menu.Item>
           <Menu.Item key="project" icon={<AppstoreOutlined />}>
             <Link to="project">
               Project
@@ -77,7 +75,11 @@ function App() {
               Settings
             </Link>
           </Menu.Item>
+          <Menu.Item style={{ float: 'right' }}>
+            <Button>Log out</Button>
+          </Menu.Item>
         </Menu>
+
         <Switch>
           {
             routers.map((router) =>
