@@ -16,7 +16,6 @@ import NotFound from './pages/NotFound';
 import Settings from './pages/Settings';
 import { Image, Menu } from 'antd';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined, HddOutlined } from '@ant-design/icons';
-
 function App() {
   // router config
   // reference: https://reactrouter.com/web/guides/quick-start
@@ -57,7 +56,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Menu mode="horizontal" theme='dark' style={{display: 'flex'}}>
+        <Menu mode="horizontal" theme='dark' style={{ display: 'flex' }}>
           <Menu.Item key="home" icon={<HomeOutlined />}>
             <Link to='/'>
               Home
@@ -83,7 +82,7 @@ function App() {
           {
             routers.map((router) =>
               <Route exact key={router.path} path={router.path}>
-                {router.component}
+                {router.component()}
               </Route>
             )
           }
