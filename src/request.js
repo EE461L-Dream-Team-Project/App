@@ -10,10 +10,10 @@ const client = axios.create({
 })
 
 export const get = (url) => {
-  return client.get(url)
+  return client.get(url, {withCredentials: true})
 }
 
 export const post = (url, data) => {
-  return client.post(url, data)
+  return client.post(url, data, {withCredentials: true})
 }
 
