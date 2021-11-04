@@ -1,0 +1,17 @@
+#name-list {
+    font-size: 22px;
+    text-align: left;
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+#members ul {
+    list-style: none;
+    display: inline-flex;
+}
+
+#members li {
+    display: inline;
+    padding: 20px;
+    text-align: center;
+}
