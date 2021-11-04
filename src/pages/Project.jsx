@@ -3,8 +3,14 @@ import { Button, PageHeader, List, Card, Modal, Form, Input } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./css/Project.css";
 import { Link } from "react-router-dom";
-import { post } from "../request";
-export default function Home() {
+import { get, post } from "../request";
+export default function Project(props) {
+  get("/is_logged_in").then((response) => {
+    if (!response.data.bool) {
+      props.history.push("/login");
+      return;
+    }
+  });
   const projects = [
     {
       id: 1,
