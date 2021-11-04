@@ -1,5 +1,6 @@
 import React from "react";
 import MemberItem from "../components/MemberItem";
+import {List} from 'antd';
 import "./css/Home.css"
 
 export default function Home() {
@@ -8,9 +9,6 @@ export default function Home() {
     <div>
       {" "}
       <img style={{ with: 20, height: 50, float: "left" }} src="logo.png" />
-      <br/>
-      <br/>
-      <br/>
       <div className="member-list" id="members">
         <ul id="name-list">
           <li><MemberItem name="Shawn Li"

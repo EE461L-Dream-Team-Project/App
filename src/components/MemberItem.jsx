@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Image } from 'antd'
 import "../pages/css/MemberItem.css"
 
 class MemberItem extends React.Component {
@@ -7,9 +8,11 @@ class MemberItem extends React.Component {
     }
     render() {
         return (
-            <div class="member-item">
-                <img    src={this.props.source}
-                        id="image"></img>
+            <div className="member-item">
+                <Image
+                    height={80}
+                    src={this.props.source}
+                />
                 <p>{this.props.name}</p>
             </div>
         )
