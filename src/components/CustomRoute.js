@@ -10,8 +10,7 @@ const CustomRoute = ({component: Component, loginRequired, redirectPath, ...rest
             setAuth(res.data.bool);
         }
         getAuth();
-     }, [])
-    console.log(authed);
+    },);
     return (
         <Route {...rest} render={props => (
             (authed != null) && (loginRequired ^ authed) ? // check if loginRequired and authed are different
