@@ -1,10 +1,11 @@
-import React from 'react';
+import { React, useState } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
+  Redirect,
 } from "react-router-dom";
 import Home from './pages/Home';
 import Dataset from './pages/Dataset';
@@ -17,45 +18,63 @@ import Settings from './pages/Settings';
 import { Menu } from 'antd';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined, HddOutlined } from '@ant-design/icons';
 import ProjectDetail from './pages/ProjectDetail';
+import CustomRoute from './components/CustomRoute';
+
 function App() {
   // router config
   // reference: https://reactrouter.com/web/guides/quick-start
   const routers = [
     {
       path: '/',
-      component: Home
+      component: Home,
+      checkAuth: false
     },
     {
       path: '/dataset',
-      component: Dataset
+      component: Dataset,
+      checkAuth: true,
+      loginRequired: true,
+      redirectPath: '/login'
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
+      checkAuth: true,
+      loginRequired: false,
+      redirectPath: '/project'
     },
     {
       path: '/register',
-      component: Register
+      component: Register,
+      checkAuth: true,
+      loginRequired: false,
+      redirectPath: '/project'
     },
     {
       path: '/project',
-      component: Project
+      component: Project,
+      checkAuth: true,
+      loginRequired: true,
+      redirectPath: '/login'
     },
     {
       path: '/project-detail/:projectId',
-      component: ProjectDetail
-    },
-    {
-      path: '/resource',
-      component: Resource
+      component: ProjectDetail,
+      checkAuth: true,
+      loginRequired: true,
+      redirectPath: '/login'
     },
     {
       path: '/settings',
-      component: Settings
+      component: Settings,
+      checkAuth: true,
+      loginRequired: true,
+      redirectPath: '/login'
     },
     {
       path: '*',
-      component: NotFound
+      component: NotFound,
+      checkAuth: false
     }
   ]
   return (
@@ -86,6 +105,8 @@ function App() {
         <Switch>
           {
             routers.map((router) =>
+              router.checkAuth ? <CustomRoute component={router.component} loginRequired={router.loginRequired} key={router.path}
+                                    redirectPath={router.redirectPath} path={router.path} exact /> :
               <Route exact key={router.path} path={router.path} component={router.component} />
             )
           }

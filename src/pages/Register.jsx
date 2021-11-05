@@ -4,12 +4,6 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { get, post } from "../request";
 
 export default function Register(props) {
-  get("/is_logged_in").then((response) => {
-    if (response.data.bool) {
-      props.history.push("/project");
-      return;
-    }
-  });
   const onFinish = async (values) => {
     const hide = message.loading("Registering New User...", 0);
     try {
