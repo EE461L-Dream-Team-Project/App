@@ -32,7 +32,9 @@ function App() {
     {
       path: '/dataset',
       component: Dataset,
-      checkAuth: false
+      checkAuth: true,
+      loginRequired: true,
+      redirectPath: '/login'
     },
     {
       path: '/login',
@@ -63,14 +65,11 @@ function App() {
       redirectPath: '/login'
     },
     {
-      path: '/resource',
-      component: Resource,
-      checkAuth: false
-    },
-    {
       path: '/settings',
       component: Settings,
-      checkAuth: false
+      checkAuth: true,
+      loginRequired: true,
+      redirectPath: '/login'
     },
     {
       path: '*',
@@ -106,7 +105,7 @@ function App() {
         <Switch>
           {
             routers.map((router) =>
-              router.checkAuth ? <CustomRoute component={router.component} loginRequired={router.loginRequired}
+              router.checkAuth ? <CustomRoute component={router.component} loginRequired={router.loginRequired} key={router.path}
                                     redirectPath={router.redirectPath} path={router.path} exact /> :
               <Route exact key={router.path} path={router.path} component={router.component} />
             )
