@@ -105,7 +105,14 @@ export default function Project(props) {
             <Link to={`project-detail/${item._id.$oid}`}>
               <Card
                 className="card"
-                title={item.name}
+                title={
+                  <>
+                    <div>{item.name}</div>
+                    <div style={{ fontSize: 10, color: "#ccc" }}>
+                      id: {item._id.$oid}
+                    </div>
+                  </>
+                }
                 bodyStyle={{ overflowWrap: "break-word" }}
               >
                 {item.description}
