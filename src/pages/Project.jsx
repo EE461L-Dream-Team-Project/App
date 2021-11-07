@@ -1,41 +1,64 @@
-import React, { useState } from "react";
-import { Button, PageHeader, List, Card, Modal, Form, Input } from "antd";
-import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  PageHeader,
+  List,
+  Card,
+  Modal,
+  Form,
+  Input,
+  message,
+} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import "./css/Project.css";
 import { Link } from "react-router-dom";
 import { get, post } from "../request";
 export default function Project(props) {
-  const projects = [
-    {
-      id: 1,
-      title: "Project 1",
-      description:
-        "Project description Project descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject description",
-    },
-    {
-      id: 2,
-      title: "Project 1",
-      description:
-        "Project description Project descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject description",
-    },
-    {
-      id: 3,
-      title: "Project 1",
-      description:
-        "Project description Project descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject description",
-    },
-  ];
+  // const projects = [
+  //   {
+  //     id: 1,
+  //     title: "Project 1",
+  //     description:
+  //       "Project description Project descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject description",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Project 1",
+  //     description:
+  //       "Project description Project descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject description",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Project 1",
+  //     description:
+  //       "Project description Project descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject descriptionProject description",
+  //   },
+  // ];
   const [form] = Form.useForm();
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
-
+  const [projects, setProjects] = useState([]);
   const handleNewProject = async () => {
     try {
       const data = form.getFieldsValue();
-      const res = await post("/project", data);
+      await post("/project", data);
+      message.success("Successfully created!");
+      setShowNewProjectModal(false);
+      // update project list
+      await fetchProjects();
     } catch (e) {
       console.error(e);
     }
   };
+
+  const fetchProjects = async () => {
+    const projects = await get("/project");
+    setProjects(projects.data);
+  };
+
+  useEffect(() => {
+    // fetch existing projects when entering Project Page
+    fetchProjects();
+  }, []);
 
   return (
     <PageHeader title="Project List">
@@ -79,8 +102,12 @@ export default function Project(props) {
         dataSource={projects}
         renderItem={(item) => (
           <List.Item>
-            <Link to={`project-detail/${item.id}`}>
-              <Card className="card" title={item.title}>
+            <Link to={`project-detail/${item._id.$oid}`}>
+              <Card
+                className="card"
+                title={item.name}
+                bodyStyle={{ overflowWrap: "break-word" }}
+              >
                 {item.description}
               </Card>
             </Link>

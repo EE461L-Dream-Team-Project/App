@@ -15,10 +15,11 @@ import Project from './pages/Project';
 import Resource from './pages/Resource';
 import NotFound from './pages/NotFound';
 import Settings from './pages/Settings';
-import { Menu } from 'antd';
+import { Button, Menu, message } from 'antd';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined, HddOutlined } from '@ant-design/icons';
 import ProjectDetail from './pages/ProjectDetail';
 import CustomRoute from './components/CustomRoute';
+import { get } from './request';
 
 function App() {
   // router config
@@ -77,37 +78,50 @@ function App() {
       checkAuth: false
     }
   ]
+
+  const handleLogout = async () => {
+    try {
+      await get('/logout')
+      message.success("Successfully logged out!")
+    } catch (e) {
+      console.error(e)
+      message.error("Log out failed.")
+    }
+  }
   return (
     <div className="App">
       <Router>
-        <Menu mode="horizontal" theme='dark' style={{ display: 'flex' }}>
-          <Menu.Item key="home" icon={<HomeOutlined />}>
-            <Link to='/'>
-              Home
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="project" icon={<AppstoreOutlined />}>
-            <Link to="/project">
-              Project
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="datasets" icon={<HddOutlined />}>
-            <Link to='/dataset'>
-              Datasets
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="settings" icon={<SettingOutlined />}>
-            <Link to="/settings">
-              Settings
-            </Link>
-          </Menu.Item>
-        </Menu>
+        <div style={{ display: 'flex', backgroundColor: '#001529', alignItems: 'center' }}>
+          <Menu mode="horizontal" theme='dark' style={{ flex: 1 }}>
+            <Menu.Item key="home" icon={<HomeOutlined />}>
+              <Link to='/'>
+                Home
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="project" icon={<AppstoreOutlined />}>
+              <Link to="/project">
+                Project
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="datasets" icon={<HddOutlined />}>
+              <Link to='/dataset'>
+                Datasets
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="settings" icon={<SettingOutlined />}>
+              <Link to="/settings">
+                Settings
+              </Link>
+            </Menu.Item>
+          </Menu>
+          <Button onClick={handleLogout} type="link" style={{ height: '100%', color: '#FF662B' }}>Log out</Button>
+        </div>
         <Switch>
           {
             routers.map((router) =>
               router.checkAuth ? <CustomRoute component={router.component} loginRequired={router.loginRequired} key={router.path}
-                                    redirectPath={router.redirectPath} path={router.path} exact /> :
-              <Route exact key={router.path} path={router.path} component={router.component} />
+                redirectPath={router.redirectPath} path={router.path} exact /> :
+                <Route exact key={router.path} path={router.path} component={router.component} />
             )
           }
         </Switch>
