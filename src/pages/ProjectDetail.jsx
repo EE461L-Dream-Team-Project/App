@@ -10,8 +10,9 @@ import {
   Input,
   InputNumber,
   message,
+  Popconfirm
 } from "antd";
-import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined, DeleteOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { get, post } from "../request";
 
 export default function ProjectDetail(props) {
@@ -64,7 +65,7 @@ export default function ProjectDetail(props) {
   const deleteResource = async (item) => {
     const hide = message.loading("Deleting " + item['name'] + "...", 0);
     try {
-      const res = await post(`/project/${projectId}/delete`, { "name" : item['name'] });
+      const res = await post(`/project/${projectId}/delete`, { "name": item['name'] });
       message.success("Deleted Resource!");
     } catch (e) {
       message.error("Resource does not exist");
@@ -126,9 +127,17 @@ export default function ProjectDetail(props) {
             }>
               Check Out <MinusOutlined />
             </Button>
-            <Button type="primary" danger onClick={() => deleteResource(item)}>
-              Delete <DeleteOutlined />
-            </Button>
+            <Popconfirm
+              title="Are you sure you want to delete this?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => deleteResource(item)}
+              icon={<QuestionCircleOutlined style={{ color: 'red'}}/>}
+            >
+              <Button type="primary" danger>
+                Delete <DeleteOutlined />
+              </Button>
+            </Popconfirm>
           </Space>
         </div>
       ),
@@ -159,7 +168,7 @@ export default function ProjectDetail(props) {
             label="Capacity"
             rules={[{ required: true }]}
           >
-            <InputNumber 
+            <InputNumber
               controls={false}
               min={0}
             />
@@ -179,7 +188,7 @@ export default function ProjectDetail(props) {
             label="Amount"
             rules={[{ required: true }]}
           >
-            <InputNumber 
+            <InputNumber
               controls={false}
               min={0}
             />
@@ -199,7 +208,7 @@ export default function ProjectDetail(props) {
             label="Amount"
             rules={[{ required: true }]}
           >
-            <InputNumber 
+            <InputNumber
               controls={false}
               min={0}
             />
