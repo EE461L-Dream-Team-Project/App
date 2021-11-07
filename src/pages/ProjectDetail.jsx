@@ -5,16 +5,14 @@ import {
   PageHeader,
   Table,
   Space,
-  Descriptions,
-  List,
-  Card,
   Modal,
   Form,
   Input,
+  InputNumber,
   message,
 } from "antd";
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
-import { get } from "../request";
+import { get, post } from "../request";
 
 export default function ProjectDetail(props) {
   const { projectId } = useParams();
@@ -23,14 +21,71 @@ export default function ProjectDetail(props) {
     const project = await get(`/project/${projectId}`);
     setProject(project.data);
   };
-  const checkIn = (item) => {
+  const [addResourceForm] = Form.useForm();
+  const [checkInForm] = Form.useForm();
+  const [checkOutForm] = Form.useForm();
+  const [currentItem, setCurrentItem] = useState(null);
+  const [showAddResourceModal, setShowAddResourceModal] = useState(false);
+  const [showCheckInModal, setShowCheckInModal] = useState(false);
+  const [showCheckOutModal, setShowCheckOutModal] = useState(false);
+
+  const checkIn = async () => {
+    const data = checkInForm.getFieldsValue();
+    setShowCheckInModal(false);
+    data['name'] = currentItem['name'];
+    const hide = message.loading("Checking In " + data['amount'] + " units to " + data['name'] + "...", 0);
+    try {
+      const res = await post(`/project/${projectId}/check_in`, data);
+      message.success("Successfully checked in hardware!");
+    } catch (e) {
+      message.error("Cannot check in " + data['amount'] + " units");
+    } finally {
+      setTimeout(hide, 0);
+    }
+    fetchProject();
 
   }
-  const checkOut = (item) => {
+  const checkOut = async () => {
+    const data = checkOutForm.getFieldsValue();
+    setShowCheckOutModal(false);
+    data['name'] = currentItem['name'];
+    const hide = message.loading("Checking Out " + data['amount'] + " units from " + data['name'] + "...", 0);
+    try {
+      const res = await post(`/project/${projectId}/check_out`, data);
+      message.success("Successfully checked out hardware!");
+    } catch (e) {
+      message.error("Cannot check out " + data['amount'] + " units");
+    } finally {
+      setTimeout(hide, 0);
+    }
+    fetchProject();
 
   }
-  const deleteResource = (item) => {
-
+  const deleteResource = async (item) => {
+    const hide = message.loading("Deleting " + item['name'] + "...", 0);
+    try {
+      const res = await post(`/project/${projectId}/delete`, { "name" : item['name'] });
+      message.success("Deleted Resource!");
+    } catch (e) {
+      message.error("Resource does not exist");
+    } finally {
+      setTimeout(hide, 0);
+    }
+    fetchProject();
+  }
+  const addResource = async () => {
+    const data = addResourceForm.getFieldsValue();
+    setShowAddResourceModal(false);
+    const hide = message.loading("Adding Resource " + data['name'] + "...", 0);
+    try {
+      const res = await post(`/project/${projectId}/add`, data);
+      message.success("Added Resource!");
+    } catch (e) {
+      message.error("Resource name " + data['name'] + " is already used");
+    } finally {
+      setTimeout(hide, 0);
+    }
+    fetchProject();
   }
   const columns = [
     {
@@ -53,16 +108,22 @@ export default function ProjectDetail(props) {
     },
     {
       title: "Manage",
-      dataIndex: "manage",
       width: "40%",
-      key: "manage",
       render: (_, item) => (
         <div>
-          <Space>
-            <Button type="primary" onClick={() => checkIn(item)}>
+          <Space size="middle">
+            <Button type="primary" onClick={() => {
+              setCurrentItem(item);
+              setShowCheckInModal(true)
+            }
+            }>
               Check In <PlusOutlined />
             </Button>
-            <Button type="primary" onClick={() => checkOut(item)}>
+            <Button type="primary" onClick={() => {
+              setCurrentItem(item);
+              setShowCheckOutModal(true)
+            }
+            }>
               Check Out <MinusOutlined />
             </Button>
             <Button type="primary" danger onClick={() => deleteResource(item)}>
@@ -73,30 +134,89 @@ export default function ProjectDetail(props) {
       ),
     },
   ];
-  const dataSource = [
-    {
-      name: "HWSet1",
-      capacity: 50,
-      availability: 50,
-      manage: 0
-    },
-    {
-      name: "HWSet2",
-      capacity: 100,
-      availability: 100,
-      manage: 0
-    }
-  ];
   useEffect(() => {
     fetchProject();
   }, []);
   return (
     <PageHeader title={project.name}>
-      <Descriptions>
-        <Descriptions.Item label="Description">{project.description}</Descriptions.Item>
-      </Descriptions>
-      <div>{JSON.stringify(project)}</div>;
-      <Table columns={columns} dataSource={dataSource} />
+      <Modal
+        title="Add Resource"
+        visible={showAddResourceModal}
+        onOk={addResource}
+        okText="Add"
+        onCancel={() => setShowAddResourceModal(false)}
+      >
+        <Form name="add-resource" form={addResourceForm} labelCol={{ span: 8 }}>
+          <Form.Item
+            name="name"
+            label="Resource Name"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="capacity"
+            label="Capacity"
+            rules={[{ required: true }]}
+          >
+            <InputNumber 
+              controls={false}
+              min={0}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Check In"
+        visible={showCheckInModal}
+        onOk={checkIn}
+        okText="Check In"
+        onCancel={() => setShowCheckInModal(false)}
+      >
+        <Form name="check-in-resource" form={checkInForm} labelCol={{ span: 8 }}>
+          <Form.Item
+            name="amount"
+            label="Amount"
+            rules={[{ required: true }]}
+          >
+            <InputNumber 
+              controls={false}
+              min={0}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Check Out"
+        visible={showCheckOutModal}
+        onOk={checkOut}
+        okText="Check Out"
+        onCancel={() => setShowCheckOutModal(false)}
+      >
+        <Form name="check-out-resource" form={checkOutForm} labelCol={{ span: 8 }}>
+          <Form.Item
+            name="amount"
+            label="Amount"
+            rules={[{ required: true }]}
+          >
+            <InputNumber 
+              controls={false}
+              min={0}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <p align="left">
+        Project ID: {projectId}
+        <br></br>
+        Description: {project.description}
+        <br></br>
+        <br></br>
+        <Button type="primary" onClick={() => setShowAddResourceModal(true)}>
+          Add Resource <PlusOutlined />
+        </Button>
+      </p>
+      <Table columns={columns} dataSource={project.resources} />
     </PageHeader>
   );
 }
