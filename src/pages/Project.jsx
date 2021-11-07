@@ -98,8 +98,9 @@ export default function Project(props) {
         </Button>
       </div>
       <List
-        grid={{ gutter: 16, column: 4 }}
+        grid={{ column: 4 }}
         dataSource={projects}
+        className="project-list"
         renderItem={(item) => (
           <List.Item>
             <Link to={`project-detail/${item._id.$oid}`}>
