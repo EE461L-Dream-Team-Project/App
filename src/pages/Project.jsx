@@ -8,11 +8,14 @@ import {
   Form,
   Input,
   message,
+  Space
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import "./css/Project.css";
 import { Link } from "react-router-dom";
 import { get, post } from "../request";
+const { Search } = Input;
+
 export default function Project(props) {
   // const projects = [
   //   {
@@ -55,6 +58,10 @@ export default function Project(props) {
     setProjects(projects.data);
   };
 
+  const onSearch = (value) => {
+    props.history.push("/project-detail/" + value);
+  }
+
   useEffect(() => {
     // fetch existing projects when entering Project Page
     fetchProjects();
@@ -93,9 +100,20 @@ export default function Project(props) {
           marginBottom: 16,
         }}
       >
-        <Button type="primary" onClick={() => setShowNewProjectModal(true)}>
-          New Project <PlusOutlined />
-        </Button>
+        <Space size="large">
+          <Button type="primary" onClick={() => setShowNewProjectModal(true)}>
+            New Project <PlusOutlined />
+          </Button>
+          <Search
+            placeholder="Project ID"
+            allowClear
+            enterButton="Manage Project"
+            size="medium"
+            style={{ width: 600 }}
+            onSearch={onSearch}
+
+          />
+        </Space>
       </div>
       <List
         grid={{ column: 4 }}
