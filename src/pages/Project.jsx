@@ -41,15 +41,18 @@ export default function Project(props) {
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
   const [projects, setProjects] = useState([]);
   const handleNewProject = async () => {
+    const data = form.getFieldsValue();
+    setShowNewProjectModal(false);
+    const hide = message.loading("Creating new project...", 0);
     try {
-      const data = form.getFieldsValue();
       await post("/project", data);
       message.success("Successfully created!");
-      setShowNewProjectModal(false);
       // update project list
       await fetchProjects();
     } catch (e) {
       console.error(e);
+    } finally {
+      setTimeout(hide, 0);
     }
   };
 

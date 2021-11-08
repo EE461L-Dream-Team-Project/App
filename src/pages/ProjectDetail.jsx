@@ -43,7 +43,7 @@ export default function ProjectDetail(props) {
     } finally {
       setTimeout(hide, 0);
     }
-    fetchProject();
+    await fetchProject();
 
   }
   const checkOut = async () => {
@@ -59,7 +59,7 @@ export default function ProjectDetail(props) {
     } finally {
       setTimeout(hide, 0);
     }
-    fetchProject();
+    await fetchProject();
 
   }
   const deleteResource = async (item) => {
@@ -72,7 +72,7 @@ export default function ProjectDetail(props) {
     } finally {
       setTimeout(hide, 0);
     }
-    fetchProject();
+    await fetchProject();
   }
   const addResource = async () => {
     const data = addResourceForm.getFieldsValue();
@@ -86,7 +86,7 @@ export default function ProjectDetail(props) {
     } finally {
       setTimeout(hide, 0);
     }
-    fetchProject();
+    await fetchProject();
   }
   const columns = [
     {
