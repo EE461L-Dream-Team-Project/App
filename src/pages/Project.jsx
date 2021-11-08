@@ -110,7 +110,7 @@ export default function Project(props) {
           <Search
             placeholder="Project ID"
             allowClear
-            enterButton="Manage Project"
+            enterButton="Go To Project"
             size="medium"
             style={{ width: 600 }}
             onSearch={onSearch}
@@ -119,6 +119,7 @@ export default function Project(props) {
         </Space>
       </div>
       <List
+        header={<h3>Previously Viewed Projects</h3>}
         grid={{ column: 4 }}
         dataSource={projects}
         className="project-list"
