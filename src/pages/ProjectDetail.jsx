@@ -19,8 +19,13 @@ export default function ProjectDetail(props) {
   const { projectId } = useParams();
   const [project, setProject] = useState({});
   const fetchProject = async () => {
-    const project = await get(`/project/${projectId}`);
-    setProject(project.data);
+    try {
+      const project = await get(`/project/${projectId}`);
+      setProject(project.data);
+    } catch (e) {
+      message.error("Invalid Project ID");
+      props.history.push('/project');
+    }
   };
   const [addResourceForm] = Form.useForm();
   const [checkInForm] = Form.useForm();

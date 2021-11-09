@@ -61,8 +61,13 @@ export default function Project(props) {
     setProjects(projects.data);
   };
 
-  const onSearch = (value) => {
-    props.history.push("/project-detail/" + value);
+  const onSearch = async (value) => {
+    try {
+      await get("/project/" + value);
+      props.history.push("/project-detail/" + value);
+    } catch (e) {
+      message.error("Invalid Project ID");
+    }
   }
 
   useEffect(() => {
