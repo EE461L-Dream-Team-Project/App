@@ -43,6 +43,7 @@ export default function Project(props) {
   const handleNewProject = async () => {
     const data = form.getFieldsValue();
     setShowNewProjectModal(false);
+    form.resetFields();
     const hide = message.loading("Creating new project...", 0);
     try {
       await post("/project", data);
