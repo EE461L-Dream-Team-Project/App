@@ -19,8 +19,13 @@ export default function ProjectDetail(props) {
   const { projectId } = useParams();
   const [project, setProject] = useState({});
   const fetchProject = async () => {
-    const project = await get(`/project/${projectId}`);
-    setProject(project.data);
+    try {
+      const project = await get(`/project/${projectId}`);
+      setProject(project.data);
+    } catch (e) {
+      message.error("Invalid Project ID");
+      props.history.push('/project');
+    }
   };
   const [addResourceForm] = Form.useForm();
   const [checkInForm] = Form.useForm();
@@ -43,7 +48,7 @@ export default function ProjectDetail(props) {
     } finally {
       setTimeout(hide, 0);
     }
-    fetchProject();
+    await fetchProject();
 
   }
   const checkOut = async () => {
@@ -59,7 +64,7 @@ export default function ProjectDetail(props) {
     } finally {
       setTimeout(hide, 0);
     }
-    fetchProject();
+    await fetchProject();
 
   }
   const deleteResource = async (item) => {
@@ -72,7 +77,7 @@ export default function ProjectDetail(props) {
     } finally {
       setTimeout(hide, 0);
     }
-    fetchProject();
+    await fetchProject();
   }
   const addResource = async () => {
     const data = addResourceForm.getFieldsValue();
@@ -86,7 +91,7 @@ export default function ProjectDetail(props) {
     } finally {
       setTimeout(hide, 0);
     }
-    fetchProject();
+    await fetchProject();
   }
   const columns = [
     {

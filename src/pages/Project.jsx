@@ -8,11 +8,14 @@ import {
   Form,
   Input,
   message,
+  Space
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import "./css/Project.css";
 import { Link } from "react-router-dom";
 import { get, post } from "../request";
+const { Search } = Input;
+
 export default function Project(props) {
   // const projects = [
   //   {
@@ -38,15 +41,18 @@ export default function Project(props) {
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
   const [projects, setProjects] = useState([]);
   const handleNewProject = async () => {
+    const data = form.getFieldsValue();
+    setShowNewProjectModal(false);
+    const hide = message.loading("Creating new project...", 0);
     try {
-      const data = form.getFieldsValue();
       await post("/project", data);
       message.success("Successfully created!");
-      setShowNewProjectModal(false);
       // update project list
       await fetchProjects();
     } catch (e) {
       console.error(e);
+    } finally {
+      setTimeout(hide, 0);
     }
   };
 
@@ -54,6 +60,15 @@ export default function Project(props) {
     const projects = await get("/project");
     setProjects(projects.data);
   };
+
+  const onSearch = async (value) => {
+    try {
+      await get("/project/" + value);
+      props.history.push("/project-detail/" + value);
+    } catch (e) {
+      message.error("Invalid Project ID");
+    }
+  }
 
   useEffect(() => {
     // fetch existing projects when entering Project Page
@@ -93,11 +108,23 @@ export default function Project(props) {
           marginBottom: 16,
         }}
       >
-        <Button type="primary" onClick={() => setShowNewProjectModal(true)}>
-          New Project <PlusOutlined />
-        </Button>
+        <Space size="large">
+          <Button type="primary" onClick={() => setShowNewProjectModal(true)}>
+            New Project <PlusOutlined />
+          </Button>
+          <Search
+            placeholder="Project ID"
+            allowClear
+            enterButton="Go To Project"
+            size="medium"
+            style={{ width: 600 }}
+            onSearch={onSearch}
+
+          />
+        </Space>
       </div>
       <List
+        header={<h3>Previously Viewed Projects</h3>}
         grid={{ column: 4 }}
         dataSource={projects}
         className="project-list"

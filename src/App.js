@@ -82,7 +82,7 @@ function App() {
   const handleLogout = async () => {
     try {
       await get('/logout')
-      message.success("Successfully logged out!")
+      window.open('/', '_top')
     } catch (e) {
       console.error(e)
       message.error("Log out failed.")
