@@ -37,7 +37,12 @@ export default function ProjectDetail(props) {
 
   const checkIn = async () => {
     const data = checkInForm.getFieldsValue();
+    if (!(typeof data['amount'] === "number")) {
+      message.error("Amount must be a number")
+      return;
+    }
     setShowCheckInModal(false);
+    checkInForm.resetFields();
     data['name'] = currentItem['name'];
     const hide = message.loading("Checking In " + data['amount'] + " units to " + data['name'] + "...", 0);
     try {
@@ -53,14 +58,19 @@ export default function ProjectDetail(props) {
   }
   const checkOut = async () => {
     const data = checkOutForm.getFieldsValue();
+    if (!(typeof data['amount'] === "number")) {
+      message.error("Amount must be a number")
+      return;
+    }
     setShowCheckOutModal(false);
+    checkOutForm.resetFields();
     data['name'] = currentItem['name'];
     const hide = message.loading("Checking Out " + data['amount'] + " units from " + data['name'] + "...", 0);
     try {
       const res = await post(`/project/${projectId}/check_out`, data);
       message.success("Successfully checked out hardware!");
     } catch (e) {
-      message.error("Cannot check out " + data['amount'] + " units");
+      message.warning("Cannot check out " + data['amount'] + " units, checked out all of the remaining units");
     } finally {
       setTimeout(hide, 0);
     }
@@ -81,7 +91,12 @@ export default function ProjectDetail(props) {
   }
   const addResource = async () => {
     const data = addResourceForm.getFieldsValue();
+    if (!(typeof data['capacity'] === "number")) {
+      message.error("Capacity must be a number")
+      return;
+    }
     setShowAddResourceModal(false);
+    addResourceForm.resetFields();
     const hide = message.loading("Adding Resource " + data['name'] + "...", 0);
     try {
       const res = await post(`/project/${projectId}/add`, data);
@@ -137,7 +152,7 @@ export default function ProjectDetail(props) {
               okText="Yes"
               cancelText="No"
               onConfirm={() => deleteResource(item)}
-              icon={<QuestionCircleOutlined style={{ color: 'red'}}/>}
+              icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
             >
               <Button type="primary" danger>
                 Delete <DeleteOutlined />
@@ -158,7 +173,11 @@ export default function ProjectDetail(props) {
         visible={showAddResourceModal}
         onOk={addResource}
         okText="Add"
-        onCancel={() => setShowAddResourceModal(false)}
+        onCancel={() => {
+          setShowAddResourceModal(false);
+          addResourceForm.resetFields()
+        }
+        }
       >
         <Form name="add-resource" form={addResourceForm} labelCol={{ span: 8 }}>
           <Form.Item
@@ -174,8 +193,10 @@ export default function ProjectDetail(props) {
             rules={[{ required: true }]}
           >
             <InputNumber
+              type="number"
               controls={false}
               min={0}
+              onPressEnter={addResource}
             />
           </Form.Item>
         </Form>
@@ -185,7 +206,11 @@ export default function ProjectDetail(props) {
         visible={showCheckInModal}
         onOk={checkIn}
         okText="Check In"
-        onCancel={() => setShowCheckInModal(false)}
+        onCancel={() => {
+          setShowCheckInModal(false);
+          checkInForm.resetFields()
+        }
+        }
       >
         <Form name="check-in-resource" form={checkInForm} labelCol={{ span: 8 }}>
           <Form.Item
@@ -194,8 +219,10 @@ export default function ProjectDetail(props) {
             rules={[{ required: true }]}
           >
             <InputNumber
+              type="number"
               controls={false}
               min={0}
+              onPressEnter={checkIn}
             />
           </Form.Item>
         </Form>
@@ -205,7 +232,11 @@ export default function ProjectDetail(props) {
         visible={showCheckOutModal}
         onOk={checkOut}
         okText="Check Out"
-        onCancel={() => setShowCheckOutModal(false)}
+        onCancel={() => {
+          setShowCheckOutModal(false);
+          checkOutForm.resetFields()
+        }
+        }
       >
         <Form name="check-out-resource" form={checkOutForm} labelCol={{ span: 8 }}>
           <Form.Item
@@ -214,8 +245,10 @@ export default function ProjectDetail(props) {
             rules={[{ required: true }]}
           >
             <InputNumber
+              type="number"
               controls={false}
               min={0}
+              onPressEnter={checkOut}
             />
           </Form.Item>
         </Form>

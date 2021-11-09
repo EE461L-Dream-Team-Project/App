@@ -82,7 +82,11 @@ export default function Project(props) {
         visible={showNewProjectModal}
         onOk={handleNewProject}
         okText="Create"
-        onCancel={() => setShowNewProjectModal(false)}
+        onCancel={() => {
+          setShowNewProjectModal(false);
+          form.resetFields();
+        }
+        }
       >
         <Form name="new-project" form={form} labelCol={{ span: 8 }}>
           <Form.Item
