@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Route, Redirect } from 'react-router-dom';
 import { get } from '../request';
 
-const CustomRoute = ({component: Component, loginRequired, redirectPath, ...rest}) => {
+const CustomRoute = ({ component: Component, loginRequired, redirectPath, ...rest }) => {
     const [authed, setAuth] = useState(null);
     useEffect(() => {
         async function getAuth() {
@@ -10,12 +10,13 @@ const CustomRoute = ({component: Component, loginRequired, redirectPath, ...rest
             setAuth(res.data.bool);
         }
         getAuth();
-    },);
+    });
+    if (authed == null) return null;
     return (
         <Route {...rest} render={props => (
-            (authed != null) && (loginRequired ^ authed) ? // check if loginRequired and authed are different
+            (loginRequired ^ authed) ? // check if loginRequired and authed are different
                 <Redirect to={redirectPath} />
-            : <Component {...props} />
+                : <Component {...props} />
         )} />
     );
 };
