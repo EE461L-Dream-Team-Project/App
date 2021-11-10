@@ -14,7 +14,7 @@ export default function Home() {
           <li><MemberItem name="Shawn Li"
                           source={mediaPrefix+"ShawnLi.jpg"}/></li>
           <li><MemberItem name="Sidharth Nair"
-                          source={mediaPrefix+"SidharthNair.jpg"}/></li>
+                          source={mediaPrefix+"SidharthNair.png"}/></li>
           <li><MemberItem name="Prathik Srinivasan"
                           source={mediaPrefix+"PrathikSrinivasan.jpg"}/></li>
           <li><MemberItem name="Nick Taylor"
