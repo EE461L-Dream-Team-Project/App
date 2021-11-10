@@ -1,9 +1,10 @@
 import React from "react";
+import { PageHeader } from "antd";
 function Settings() {
   return (
-    <>
-      <h1>Settings</h1>
-    </>
+    <PageHeader title="Settings">
+
+    </PageHeader>
   );
 }
 
