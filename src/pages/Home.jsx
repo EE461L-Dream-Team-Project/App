@@ -1,17 +1,33 @@
 import React from "react";
 import MemberItem from "../components/MemberItem";
-import {List, Button, Space, Card, Carousel} from 'antd';
+import {List, Button, Space, Card, Carousel, Row, Typography, Col, Divider, BackTop, Collapse} from 'antd';
 import {Link} from 'react-router-dom';
 import "./css/Home.css"
 
 export default function Home() {
   const mediaPrefix = "/media/members/"
   const {Meta} = Card;
+  const {Title} = Typography;
+  const {Panel} = Collapse;
+  
+  const desc1 =`Projecture is a web application that allows users to interact with 
+  a Hardware-as-a-Service (HaaS) platform to reserve available resources and download
+  datasets from published sources.`;
+
+  const desc2 =`Once you have created an account and logged in, you may use the 
+  'Project' page to create new projects and view created projects, as well as search for 
+  specific projects by their id.`
+
+  const desc3 =`Once you have created an account and logged in, you may use the 
+  'Datasets' page to download data from published sources. Each dataset contains a 
+  description of the data as well as an indication of the size of the dataset.`
+
   return (
     <div>
       {" "}
       <img style={{height: 150, float: "center" }} src="logo.png" />
       <br />
+
       <div className="buttons-list" id="buttons">
         <br />
         <Space direction = "vertical" align = "center" >
@@ -22,57 +38,74 @@ export default function Home() {
         <Link to="/Register">
           <Button type="primary" size={'large'} block={true}>Register</Button>
         </Link>
+        <br />
         </Space>
       </div>
-      <div className="member-carousel" id="members-carousel">
-        <Carousel dotPosition="top" autoplay>
-          <div>
-          <Card style={{height:500, width: 200 }} cover={<img alt="Shawn Li" src={mediaPrefix+"ShawnLi.jpg"} style={{height:200, width:200}}/>}>
-            <Meta title="Shawn Li" description="description" />
-          </Card>
-          </div>
-          <div>
-          <Card style={{height:500, width: 300 }} cover={<img alt="Sidharth Nair" src={mediaPrefix+"SidharthNair.jpg"} style={{height:200, width:200}}/>}>
-            <Meta title="Sidharth Nair" description="description" />
-          </Card>
-          </div>
-          <div>
-          <Card style={{height:500, width: 300 }} cover={<img alt="Prathik Srinivasan" src={mediaPrefix+"PrathikSrinivasan.jpg"} />}>
-            <Meta title="Prathik Srinivasan" description="description" />
-          </Card>
-          </div>
-          <div>
-          <Card style={{height:500, width: 300 }} cover={<img alt="Nick Taylor" src={mediaPrefix+"NickTaylor.jpg"} />}>
-            <Meta title="Nick Taylor" description="description" />
-          </Card>
-          </div>
-          <div>
-          <Card style={{height:500, width: 300 }} cover={<img alt="Joseph Lawler" src={mediaPrefix+"JosephLawler.jpg"} />}>
-            <Meta title="Joseph Lawler" description="description" />
-          </Card>
-          </div>
-          <div>
-          <Card style={{height:500, width: 300 }} cover={<img alt="Daniel Sosa" src={mediaPrefix+"DanielSosa.jpg"} />}>
-            <Meta title="Daniel Sosa" description="description" />
-          </Card>
-          </div>
-        </Carousel>
+
+      <br />
+      <Divider />
+      <br />
+
+      <div className="project-description" id="project-description"> 
+        <Collapse>
+          <Panel header="What is Projecture?" key="1">
+            <p>{desc1}</p>
+          </Panel>
+          <Panel header="How to use the 'Projects' page" key="2">
+            <p>{desc2}</p>
+          </Panel>
+          <Panel header="How to use the 'Datasets page" key="3">
+            <p>{desc3}</p>
+          </Panel>
+        </Collapse>
       </div>
-      <div className="member-list" id="members">
-        <ul id="name-list">
-          <li><MemberItem name="Shawn Li"
-                          source={mediaPrefix+"ShawnLi.jpg"}/></li>
-          <li><MemberItem name="Sidharth Nair"
-                          source={mediaPrefix+"SidharthNair.jpg"}/></li>
-          <li><MemberItem name="Prathik Srinivasan"
-                          source={mediaPrefix+"PrathikSrinivasan.jpg"}/></li>
-          <li><MemberItem name="Nick Taylor"
-                          source={mediaPrefix+"NickTaylor.jpg"}/></li>
-          <li><MemberItem name="Joseph Lawler"
-                          source={mediaPrefix+"JosephLawler.jpg"}/></li>
-          <li><MemberItem name="Daniel Sosa" 
-                          source={mediaPrefix+"DanielSosa.jpg"}/></li>
-        </ul>
+
+      <br />
+      <Divider />
+      <br />
+
+      <div className="member-list" id="members-list" style={{justifyContent:"center", alignItems:"center"}}>
+          <Title>Team Members:</Title>
+          <Row gutter={[16, 24]}>
+
+            <Col span={4}>
+              <Card cover={<img alt="Joseph Lawler" src={mediaPrefix+"JosephLawler.jpg"} style={{padding:15}}/>}>
+                <Meta title="Joseph Lawler" description="description" />
+              </Card>
+            </Col>
+
+            <Col span={4}>
+              <Card cover={<img alt="Shawn Li" src={mediaPrefix+"ShawnLi.jpg"} style={{padding:15}}/>}>
+                <Meta title="Shawn Li" description="description" />
+              </Card>
+            </Col>
+
+            <Col span={4}>
+              <Card cover={<img alt="Sidharth Nair" src={mediaPrefix+"SidharthNair.jpg"} style={{padding:15}}/>}>
+                <Meta title="Sidharth Nair" description="description" />
+              </Card>
+            </Col>  
+                        
+            <Col span={4}>
+              <Card cover={<img alt="Daniel Sosa" src={mediaPrefix+"DanielSosa.jpg"} style={{padding:15}}/>}>
+               <Meta title="Daniel Sosa" description="description" />
+              </Card>
+            </Col>
+
+            <Col span={4}>
+              <Card cover={<img alt="Prathik Srinivasan" src={mediaPrefix+"PrathikSrinivasan.jpg"} style={{padding:15}}/>}>
+                <Meta title="Prathik Srinivasan" description="description" />
+              </Card>
+            </Col>
+
+            <Col span={4}>
+              <Card cover={<img alt="Nick Taylor" src={mediaPrefix+"NickTaylor.jpg"} style={{padding:15}}/>}>
+                <Meta title="Nick Taylor" description="description" />
+              </Card>
+            </Col>
+
+          </Row>
+
       </div>
     </div>
   );
