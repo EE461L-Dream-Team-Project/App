@@ -27,11 +27,9 @@ export default function ProjectDetail(props) {
       props.history.push('/project');
     }
   };
-  const [addResourceForm] = Form.useForm();
   const [checkInForm] = Form.useForm();
   const [checkOutForm] = Form.useForm();
   const [currentItem, setCurrentItem] = useState(null);
-  const [showAddResourceModal, setShowAddResourceModal] = useState(false);
   const [showCheckInModal, setShowCheckInModal] = useState(false);
   const [showCheckOutModal, setShowCheckOutModal] = useState(false);
 
@@ -44,7 +42,7 @@ export default function ProjectDetail(props) {
     setShowCheckInModal(false);
     checkInForm.resetFields();
     data['name'] = currentItem['name'];
-    const hide = message.loading("Checking In " + data['amount'] + " units to " + data['name'] + "...", 0);
+    const hide = message.loading("Checking in " + data['amount'] + " units to " + data['name'] + "...", 0);
     try {
       const res = await post(`/project/${projectId}/check_in`, data);
       message.success("Successfully checked in hardware!");
@@ -54,7 +52,6 @@ export default function ProjectDetail(props) {
       setTimeout(hide, 0);
     }
     await fetchProject();
-
   }
   const checkOut = async () => {
     const data = checkOutForm.getFieldsValue();
@@ -65,7 +62,7 @@ export default function ProjectDetail(props) {
     setShowCheckOutModal(false);
     checkOutForm.resetFields();
     data['name'] = currentItem['name'];
-    const hide = message.loading("Checking Out " + data['amount'] + " units from " + data['name'] + "...", 0);
+    const hide = message.loading("Checking out " + data['amount'] + " units from " + data['name'] + "...", 0);
     try {
       const res = await post(`/project/${projectId}/check_out`, data);
       message.success("Successfully checked out hardware!");
@@ -75,38 +72,30 @@ export default function ProjectDetail(props) {
       setTimeout(hide, 0);
     }
     await fetchProject();
-
   }
-  const deleteResource = async (item) => {
-    const hide = message.loading("Deleting " + item['name'] + "...", 0);
+  const checkInAll = async () => {
+    const hide = message.loading("Checking in all units...", 0);
     try {
-      const res = await post(`/project/${projectId}/delete`, { "name": item['name'] });
-      message.success("Deleted Resource!");
+      const res = await get(`/project/${projectId}/check_in_all`);
+      message.success("Successfully checked in all hardware!");
     } catch (e) {
-      message.error("Resource does not exist");
+      message.error("Unknown Error");
     } finally {
       setTimeout(hide, 0);
     }
     await fetchProject();
   }
-  const addResource = async () => {
-    const data = addResourceForm.getFieldsValue();
-    if (!(typeof data['capacity'] === "number")) {
-      message.error("Capacity must be a number")
-      return;
-    }
-    setShowAddResourceModal(false);
-    addResourceForm.resetFields();
-    const hide = message.loading("Adding Resource " + data['name'] + "...", 0);
+  const deleteProject = async () => {
+    const hide = message.loading("Deleting Project...", 0);
     try {
-      const res = await post(`/project/${projectId}/add`, data);
-      message.success("Added Resource!");
+      const res = await get(`/project/${projectId}/delete_project`);
+      message.success("Successfully deleted project!");
     } catch (e) {
-      message.error("Resource name " + data['name'] + " is already used");
+      message.error("Unknown Error");
     } finally {
       setTimeout(hide, 0);
     }
-    await fetchProject();
+    props.history.push('/project')
   }
   const columns = [
     {
@@ -128,8 +117,14 @@ export default function ProjectDetail(props) {
       key: "availability",
     },
     {
+      title: "Checked Out",
+      dataIndex: "checked_out",
+      width: "15%",
+      key: "checked_out",
+    },
+    {
       title: "Manage",
-      width: "40%",
+      width: "25%",
       render: (_, item) => (
         <div>
           <Space size="middle">
@@ -147,17 +142,6 @@ export default function ProjectDetail(props) {
             }>
               Check Out <MinusOutlined />
             </Button>
-            <Popconfirm
-              title="Are you sure you want to delete this?"
-              okText="Yes"
-              cancelText="No"
-              onConfirm={() => deleteResource(item)}
-              icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-            >
-              <Button type="primary" danger>
-                Delete <DeleteOutlined />
-              </Button>
-            </Popconfirm>
           </Space>
         </div>
       ),
@@ -167,40 +151,7 @@ export default function ProjectDetail(props) {
     fetchProject();
   }, []);
   return (
-    <PageHeader title={project.name}>
-      <Modal
-        title="Add Resource"
-        visible={showAddResourceModal}
-        onOk={addResource}
-        okText="Add"
-        onCancel={() => {
-          setShowAddResourceModal(false);
-          addResourceForm.resetFields()
-        }
-        }
-      >
-        <Form name="add-resource" form={addResourceForm} labelCol={{ span: 8 }}>
-          <Form.Item
-            name="name"
-            label="Resource Name"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="capacity"
-            label="Capacity"
-            rules={[{ required: true }]}
-          >
-            <InputNumber
-              type="number"
-              controls={false}
-              min={0}
-              onPressEnter={addResource}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
+    <PageHeader title={project['name']}>
       <Modal
         title="Check In"
         visible={showCheckInModal}
@@ -256,14 +207,36 @@ export default function ProjectDetail(props) {
       <p align="left">
         Project ID: {projectId}
         <br></br>
-        Description: {project.description}
+        Description: {project['description']}
         <br></br>
-        <br></br>
-        <Button type="primary" onClick={() => setShowAddResourceModal(true)}>
-          Add Resource <PlusOutlined />
-        </Button>
+        <div align="right">
+          <Space>
+            <Popconfirm
+              title="Are you sure you want to check in all resources?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={checkInAll}
+              icon={<QuestionCircleOutlined />}
+            >
+              <Button type="primary">
+                Check In All <PlusOutlined />
+              </Button>
+            </Popconfirm>
+            <Popconfirm
+              title="Are you sure you want to delete this project?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={deleteProject}
+              icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+            >
+              <Button type="danger">
+                Delete Project <DeleteOutlined />
+              </Button>
+            </Popconfirm>
+          </Space>
+        </div>
       </p>
-      <Table columns={columns} dataSource={project.resources} />
+      <Table columns={columns} dataSource={project['data']} />
     </PageHeader>
   );
 }
