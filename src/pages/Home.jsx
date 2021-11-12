@@ -41,7 +41,7 @@ export default function Home() {
       {" "}
       <img style={{height: 150, float: "center" }} src="logo.png" />
       <br />
-      {authed &&
+      {!authed &&
       <div className="buttons-list" id="buttons">
         <br />
         <Space direction = "vertical" align = "center" >
