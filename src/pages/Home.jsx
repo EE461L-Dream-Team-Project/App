@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MemberItem from "../components/MemberItem";
-import {List, Button, Space, Card, Carousel, Row, Typography, Col, Divider, BackTop, Collapse} from 'antd';
+import { Button, Space, Card, Row, Typography, Col, Divider, Image, Collapse } from 'antd';
 import {Link} from 'react-router-dom';
 import "./css/Home.css"
 import { get } from '../request';
@@ -77,42 +77,42 @@ export default function Home() {
       <br />
 
       <div className="member-list" id="members-list" style={{justifyContent:"center", alignItems:"center"}}>
-          <Title>Team Members:</Title>
+          <Title style={{fontSize: 24, padding: 20}}>Team Members</Title>
           <Row gutter={[16, 24]}>
 
             <Col span={4}>
-              <Card cover={<img alt="Joseph Lawler" src={mediaPrefix+"JosephLawler.jpg"} style={{padding:15}}/>}>
-                <Meta title="Joseph Lawler" description="description" />
+              <Card cover={<Image alt="Joseph Lawler" src={mediaPrefix+"JosephLawler.jpg"} style={{padding:15}} preview={{mask: false}} />}>
+                <Meta title="Joseph Lawler" description={<a href="mailto:josephlawler23@utexas.edu">josephlawler23@utexas.edu</a>} />
               </Card>
             </Col>
 
             <Col span={4}>
-              <Card cover={<img alt="Shawn Li" src={mediaPrefix+"ShawnLi.jpg"} style={{padding:15}}/>}>
-                <Meta title="Shawn Li" description="description" />
+              <Card cover={<Image alt="Shawn Li" src={mediaPrefix+"ShawnLi.jpg"} style={{padding:15}} preview={{mask: false}} />}>
+                <Meta title="Shawn Li" description={<a href="mailto:lixiaoxiong599@gmail.com">lixiaoxiong599@gmail.com</a>} />
               </Card>
             </Col>
 
             <Col span={4}>
-              <Card cover={<img alt="Sidharth Nair" src={mediaPrefix+"SidharthNair.jpg"} style={{padding:15}}/>}>
-                <Meta title="Sidharth Nair" description="description" />
+              <Card cover={<Image alt="Sidharth Nair" src={mediaPrefix+"SidharthNair.png"} style={{padding:15}} preview={{mask: false}} />}>
+                <Meta title="Sidharth Nair" description={<a href="mailto:sidnair@utexas.edu">sidnair@utexas.edu</a>} />
               </Card>
             </Col>  
                         
             <Col span={4}>
-              <Card cover={<img alt="Daniel Sosa" src={mediaPrefix+"DanielSosa.jpg"} style={{padding:15}}/>}>
-               <Meta title="Daniel Sosa" description="description" />
+              <Card cover={<Image alt="Daniel Sosa" src={mediaPrefix+"DanielSosa.jpg"} style={{padding:15}} preview={{mask: false}} />}>
+               <Meta title="Daniel Sosa" description={<a href="mailto:danielsosa521@utexas.edu">danielsosa521@utexas.edu</a>} />
               </Card>
             </Col>
 
             <Col span={4}>
-              <Card cover={<img alt="Prathik Srinivasan" src={mediaPrefix+"PrathikSrinivasan.jpg"} style={{padding:15}}/>}>
-                <Meta title="Prathik Srinivasan" description="description" />
+              <Card cover={<Image alt="Prathik Srinivasan" src={mediaPrefix+"PrathikSrinivasan.jpg"} style={{padding:15}} preview={{mask: false}} />}>
+                <Meta title="Prathik Srinivasan" description={<a href="mailto:prathik.srinivasan@utexas.edu">prathik.srinivasan@utexas.edu</a>} />
               </Card>
             </Col>
 
             <Col span={4}>
-              <Card cover={<img alt="Nick Taylor" src={mediaPrefix+"NickTaylor.jpg"} style={{padding:15}}/>}>
-                <Meta title="Nick Taylor" description="description" />
+              <Card cover={<Image alt="Nick Taylor" src={mediaPrefix+"NickTaylor.jpg"} style={{padding:15}} preview={{mask: false}} />}>
+                <Meta title="Nick Taylor" description={<a href="mailto:ngtaylor@utexas.edu">ngtaylor@utexas.edu</a>} />
               </Card>
             </Col>
 
