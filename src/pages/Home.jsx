@@ -41,22 +41,19 @@ export default function Home() {
       {" "}
       <img style={{height: 150, float: "center" }} src="logo.png" />
       <br />
-      {!authed &&
       <div className="buttons-list" id="buttons">
         <br />
         <Space direction = "vertical" align = "center" >
-        <Link to="/Login">
-          <Button type="primary" size={'large'} block={true}>Login</Button>
+        <Link to={!authed ? "/login" : "/project"}>
+          <Button type="primary" size={'large'} block={true}>{!authed ? "Login" : "Projects"}</Button>
         </Link>
         <br />
-        <Link to="/Register">
-          <Button type="primary" size={'large'} block={true}>Register</Button>
+        <Link to={!authed ? "/register" : "/dataset"}>
+          <Button type="primary" size={'large'} block={true}>{!authed ? "Register" : "Datasets"}</Button>
         </Link>
         <br />
         </Space>
       </div>
-      }
-
       <br />
       <Divider />
       <br />
