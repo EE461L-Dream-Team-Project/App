@@ -69,7 +69,7 @@ export default function Home() {
           <Panel header="How to use the 'Projects' page" key="2">
             <p>{desc2}</p>
           </Panel>
-          <Panel header="How to use the 'Datasets page" key="3">
+          <Panel header="How to use the 'Datasets' page" key="3">
             <p>{desc3}</p>
           </Panel>
         </Collapse>
