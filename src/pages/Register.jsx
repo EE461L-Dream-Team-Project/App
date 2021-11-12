@@ -19,7 +19,7 @@ export default function Register(props) {
   };
   return (
     <div className="register-container">
-      <img style={{ padding: 30, float: "center" }} src="logo.png" />
+      <img style={{ padding: 30, float: "center", width:"50%" }} src="logo.png" />
       <Form
         name="normal_register"
         className="register-form"

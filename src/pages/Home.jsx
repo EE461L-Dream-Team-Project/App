@@ -39,8 +39,7 @@ export default function Home() {
   return (
     <div>
       {" "}
-      <img style={{height: 150, float: "center" }} src="logo.png" />
-      <br />
+      <img style={{ padding: 30, float: "center", width:"50%" }} src="logo.png" />
       <div className="buttons-list" id="buttons">
         <br />
         <Space direction = "vertical" align = "center" >

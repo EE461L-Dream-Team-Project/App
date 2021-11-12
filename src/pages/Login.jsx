@@ -18,7 +18,7 @@ export default function Login(props) {
   };
   return (
     <div className="login-container">
-      <img style={{ padding: 30, float: "center" }} src="logo.png" />
+      <img style={{ padding: 30, float: "center", width:"50%" }} src="logo.png" />
       <Form
         name="normal_login"
         className="login-form"
@@ -28,7 +28,7 @@ export default function Login(props) {
         onFinish={onFinish}
       >
         <div
-          className="register-fields"
+          className="login-fields"
           style={{ width: 300, margin: "0 auto" }}
         >
           <Form.Item
