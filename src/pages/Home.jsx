@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MemberItem from "../components/MemberItem";
 import {List, Button, Space, Card, Carousel, Row, Typography, Col, Divider, BackTop, Collapse} from 'antd';
 import {Link} from 'react-router-dom';
 import "./css/Home.css"
+import { get } from '../request';
 
 export default function Home() {
   const mediaPrefix = "/media/members/"
@@ -22,12 +23,25 @@ export default function Home() {
   'Datasets' page to download data from published sources. Each dataset contains a 
   description of the data as well as an indication of the size of the dataset.`
 
+  const [authed, setAuth] = useState(null); //placeholder for something that would make the login/register buttons not render if logged in
+
+
+  const getAuth = async () => {
+    const res = await get("/is_logged_in");
+    setAuth(res.data.bool);
+  };
+
+  useEffect(() => {
+    // fetch existing projects when entering Project Page
+    getAuth();
+  }, []);
+
   return (
     <div>
       {" "}
       <img style={{height: 150, float: "center" }} src="logo.png" />
       <br />
-
+      {authed &&
       <div className="buttons-list" id="buttons">
         <br />
         <Space direction = "vertical" align = "center" >
@@ -41,6 +55,7 @@ export default function Home() {
         <br />
         </Space>
       </div>
+      }
 
       <br />
       <Divider />
