@@ -23,6 +23,10 @@ export default function Home() {
   'Datasets' page to download data from published sources. Each dataset contains a 
   description of the data as well as an indication of the size of the dataset.`
 
+  const desc4 =`The settings page can be used to change your password or logout. If
+  you have access to an admin account you can use this page to manage the global pool
+  of hardware resources sets`
+
   const [authed, setAuth] = useState(null); //placeholder for something that would make the login/register buttons not render if logged in
 
 
@@ -67,6 +71,9 @@ export default function Home() {
           </Panel>
           <Panel header="How to use the 'Datasets' page" key="3">
             <p>{desc3}</p>
+          </Panel>
+          <Panel header="How to use the 'Settings' page" key="4">
+            <p>{desc4}</p>
           </Panel>
         </Collapse>
       </div>
